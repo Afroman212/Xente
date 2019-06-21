@@ -21,7 +21,6 @@ class auto_encoder_model(BaseEstimator, ClassifierMixin):
         autoencoder.add(Dense(self.Xshape, activation='sigmoid'))
         autoencoder.compile(loss='mse',
                             optimizer=keras.optimizers.Adam())
-        autoencoder.load_weights('autoencoder.h5')
         self.autoencoder = autoencoder
         self.refit = refit
 
@@ -33,6 +32,8 @@ class auto_encoder_model(BaseEstimator, ClassifierMixin):
                                  batch_size=5,
                                  epochs=5,
                                  verbose=0)
+        else:
+            self.autoencoder.load_weights('autoencoder.h5')
 
         return self
 
@@ -48,3 +49,5 @@ class auto_encoder_model(BaseEstimator, ClassifierMixin):
         y_true = y
         f1 = f1_score(y_true, y_pred)
         return f1
+    def save_mod(self):
+        self.autoencoder.save_weights('autoencoder.h5')
