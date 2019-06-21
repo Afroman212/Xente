@@ -61,7 +61,7 @@ grid_RFC = GridSearchCV(estimator=RFC_res,
                         param_grid=RFC_res_params,
                         cv=5,
                         scoring='f1',
-                        n_jobs=7)
+                        n_jobs=-1)
 grid_RFC.fit(trainX_res, trainy_res)
 best_RFC = grid_RFC.best_estimator_
 print('Random_Forest_best', f1_score(trainy, best_RFC.predict(trainX)))
@@ -76,14 +76,14 @@ grid_xgb = GridSearchCV(estimator=xboost_res,
                         param_grid=xgb_res_params,
                         cv=5,
                         scoring='f1',
-                        n_jobs=7)
+                        n_jobs=-1)
 grid_xgb.fit(trainX_res, trainy_res)
 best_xgb = grid_xgb.best_estimator_
 print('Random Forest_best', f1_score(trainy, best_xgb.predict(trainX)))
 # run_test(boost_res, 'boostSMOTE')
 
 params = dict(threshold=np.arange(2.5, 3.5, 0.1)*1e10)
-autoencoder = auto_encoder_model(refit=True, Xshape=trainX.shape[1])
+autoencoder = auto_encoder_model(Xshape=trainX.shape[1])
 grid_autoencoder = GridSearchCV(estimator=autoencoder,
                                 param_grid=params,
                                 cv=5,
