@@ -56,12 +56,13 @@ class preprocess_data:
         proc_df = proc_df.drop(['TransactionStartTime'], axis=1)
 
         Tid = df['TransactionId'].to_frame()
-        self.Tid_test = df['TransactionId'].to_frame()
-        self.X_test = proc_df
-        return self
+        Tid_test = df['TransactionId'].to_frame()
+        X_test = proc_df
+        return Tid_test, X_test
 
     def run_test(self, model, name):
-        fraud = model.predict(self.X_test)
-        test = self.Tid_test
+        Tid_test, X_test = self.preprocess_test()
+        fraud = model.predict(X_test)
+        test = Tid_test
         test['FraudResult'] = fraud
         test.to_csv('test_submission_%s.csv' % name, index=False)
